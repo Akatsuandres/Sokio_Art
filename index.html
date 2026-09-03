@@ -5,13 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sokio_Art</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 </head>
 <body>
+  <div id="readingProgress"></div>
   <header>
     <h1 id="title"></h1>
+    <p class="tagline">
+      Anime &amp; manga | Fan art digital y tradicional
+      <span class="tagline-jp">芸術は愛です。</span>
+    </p>
     <nav>
       <ul>
         <li><a href="#sobre-mi">Sobre mí</a></li>
@@ -20,33 +28,61 @@
         <li><a href="#contacto">Contacto</a></li>
       </ul>
     </nav>
-    <button id="darkModeBtn">🌙 Dark Mode</button>
+    <button id="darkModeBtn"><span id="darkModeIcon">🌙</span> <span id="darkModeLabel">Modo oscuro</span></button>
   </header>
 
   <main>
     <!-- Sección sobre mí -->
     <section id="sobre-mi">
+      <span class="chapter-tag">Cap. 01</span>
       <h2>Sobre mí</h2>
-      <p>Soy un artista digital apasionado por el anime, el manga y la creación de personajes. Desde pequeño me ha fascinado cómo una ilustración puede transmitir emociones, personalidad e incluso historias completas.<br>
-
-        En este espacio comparto mis dibujos, prácticas, fanarts y proyectos mientras continúo aprendiendo y perfeccionando mi estilo. Me interesa formar parte de proyectos relacionados con manga, videojuegos, VTubers y diseño de personajes, aportando creatividad, dedicación y una constante búsqueda por mejorar.<br>
-
-        Más que crear ilustraciones, me gusta construir personajes y mundos que conecten con las personas y despierten su imaginación.</p>
+      <div class="bio-grid reveal-up">
+        <div class="bio-text">
+          <p>Soy un artista digital apasionado por el anime, el manga y la creación de personajes. Desde pequeño me ha fascinado cómo una ilustración puede transmitir emociones, personalidad e incluso historias completas.<br><br>
+            En este espacio comparto mis dibujos, prácticas, fanarts y proyectos mientras continúo aprendiendo y perfeccionando mi estilo. Me interesa formar parte de proyectos relacionados con manga, videojuegos, VTubers y diseño de personajes, aportando creatividad, dedicación y una constante búsqueda por mejorar.<br><br>
+            Más que crear ilustraciones, me gusta construir personajes y mundos que conecten con las personas y despierten su imaginación.</p>
+        </div>
+        <aside class="aficiones-card">
+          <h3>Aficiones</h3>
+          <ul class="aficiones-list">
+            <li><span class="aficion-icon">🎮</span> Videojuegos</li>
+            <li><span class="aficion-icon">📖</span> Manga &amp; Manhwa</li>
+            <li><span class="aficion-icon">🎭</span> Cosplay</li>
+            <li><span class="aficion-icon">🖌️</span> Diseño de personajes 3D</li>
+          </ul>
+          <p class="aficiones-note">Inviten un lolcito xD</p>
+        </aside>
+      </div>
     </section>
 
     <!-- Buscador -->
     <section id="buscador">
-      <h2>Buscar obras</h2>
-      <input type="text" id="searchInput" placeholder="Buscar por nombre o tema...">
+      <div class="search-panel reveal-up">
+        <h2 class="tool-heading">Buscar obras</h2>
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Buscar por nombre o tema...">
+        </div>
+        <div class="filter-chips" id="filterChips">
+          <button class="chip active" data-filter="all" type="button">Todos</button>
+          <button class="chip" data-filter="anime" type="button">Anime</button>
+          <button class="chip" data-filter="videojuegos" type="button">Videojuegos</button>
+          <button class="chip" data-filter="original" type="button">Original</button>
+        </div>
+        <p id="noResults" style="display:none;">No se encontraron obras con ese criterio.</p>
+      </div>
     </section>
 
     <!-- Galería -->
     <section id="artistico">
+      <span class="chapter-tag">Cap. 02</span>
       <h2>Proyectos Artísticos</h2>
       <div class="gallery">
         <!-- Obra 1 -->
-        <div class="art-card" data-obra="mambo" data-title="Mambo" data-desc="Quien para hacer carreras de caballos con cosplay.">
-          <img src="Dibujos/Mambo.jfif" alt="Mambo">
+        <div class="art-card" data-obra="mambo" data-category="original" data-title="Mambo" data-desc="Quien para hacer carreras de caballos con cosplay." data-process="Dibujos/Umamusume/01-boceto.jpg, Dibujos/Umamusume/02-lineart.jpg, Dibujos/Umamusume/03-extra.jpg, Dibujos/Umamusume/04-sombra.jpg, Dibujos/Umamusume/05-final.jpg">
+          <div class="art-image-wrap">
+            <img src="Dibujos/Umamusume/05-final.jpg" alt="Mambo" loading="lazy">
+          </div>
           <h3>Mambo</h3>
           <p>Quien para hacer carreras de caballos con cosplay.</p>
           <div class="reactions">
@@ -62,8 +98,10 @@
         </div>
 
         <!-- Obra 2 -->
-        <div class="art-card" data-obra="Geto y Gojo" data-title="Geto y Gojo" data-desc="Un dibujo que hice como regalo a una amiga uwu">
-          <img src="Dibujos/Jujutsu.jfif" alt="Geto y Gojo">
+        <div class="art-card" data-obra="Geto y Gojo" data-category="anime" data-title="Geto y Gojo" data-desc="Un dibujo que hice como regalo a una amiga uwu" data-process="Dibujos/JujutsuKaisen/00-boceto.jpg, Dibujos/JujutsuKaisen/01-boceto.jpg, Dibujos/JujutsuKaisen/02-boceto.jpg, Dibujos/JujutsuKaisen/03-boceto.jpg, Dibujos/JujutsuKaisen/04-final.jpg">
+          <div class="art-image-wrap">
+            <img src="Dibujos/JujutsuKaisen/04-final.jpg" alt="Geto y Gojo" loading="lazy">
+          </div>
           <h3>Geto y Gojo</h3>
           <p>Un dibujo que hice como regalo a una amiga uwu</p>
           <div class="reactions">
@@ -79,8 +117,10 @@
         </div>
 
         <!-- Obra 3 -->
-        <div class="art-card" data-obra="Marisa" data-title="Marisa" data-desc="Hermosa Marisa de Touhou, haciendo pose de jojo xD">
-          <img src="Dibujos/Marisa.jfif" alt="Marisa">
+        <div class="art-card" data-obra="Marisa" data-category="videojuegos" data-title="Marisa" data-desc="Hermosa Marisa de Touhou, haciendo pose de jojo xD" data-process="Dibujos/Touhou/00-boceto.jpg, Dibujos/Touhou/01-boceto.jpg, Dibujos/Touhou/02-boceto.jpg, Dibujos/Touhou/03-final.jpg">
+          <div class="art-image-wrap">
+            <img src="Dibujos/Touhou/03-final.jpg" alt="Marisa" loading="lazy">
+          </div>
           <h3>Marisa</h3>
           <p>Hermosa Marisa de Touhou, haciendo pose de jojo xD</p>
           <div class="reactions">
@@ -96,8 +136,10 @@
         </div>
 
         <!-- Obra 4 -->
-        <div class="art-card" data-obra="Kratos" data-title="Kratos" data-desc="Dibujo de cumpleaños para un amigo aunque aun no lo entrego.">
-          <img src="Dibujos/Kratos.jfif" alt="Kratos">
+        <div class="art-card" data-obra="Kratos" data-category="videojuegos" data-title="Kratos" data-desc="Dibujo de cumpleaños para un amigo aunque aun no lo entrego." data-process="Dibujos/GodOfWar/00-boceto.jpg, Dibujos/GodOfWar/01-boceto.jpg, Dibujos/GodOfWar/02-final.jpg, Dibujos/GodOfWar/03-final.jpg,">
+          <div class="art-image-wrap">
+            <img src="Dibujos/GodOfWar/03-final.jpg" alt="Kratos" loading="lazy">
+          </div>
           <h3>Kratos</h3>
           <p>Dibujo de cumpleaños para un amigo aunque aun no lo entrego.</p>
           <div class="reactions">
@@ -113,8 +155,10 @@
         </div>
 
         <!-- Obra 5 -->
-        <div class="art-card" data-obra="Rengoku" data-title="Rengoku" data-desc="Regalo que entrege a un pana, que hermoso detallado owo">
-          <img src="Dibujos/Pilar.jfif" alt="Rengoku">
+        <div class="art-card" data-obra="Rengoku" data-category="anime" data-title="Rengoku" data-desc="Regalo que entrege a un pana, que hermoso detallado owo" data-process="Dibujos/Kimetsunoyaiba/00-boceto.jpg, Dibujos/Kimetsunoyaiba/01-boceto.jpg, Dibujos/Kimetsunoyaiba/02-boceto.jpg, Dibujos/Kimetsunoyaiba/03-boceto.jpg, Dibujos/Kimetsunoyaiba/04-Final.jpg">
+          <div class="art-image-wrap">
+            <img src="Dibujos/Kimetsunoyaiba/04-Final.jpg" alt="Rengoku" loading="lazy">
+          </div>
           <h3>Rengoku</h3>
           <p>Regalo que entrege a un pana, que hermoso detallado owo</p>
           <div class="reactions">
@@ -130,8 +174,10 @@
         </div>
 
         <!-- Obra 6 -->
-        <div class="art-card" data-obra="Violet" data-title="Violet" data-desc="Segunda versión de mi Violet, como me pone triste este anime">
-          <img src="Dibujos/Violet.jfif" alt="Violet">
+        <div class="art-card" data-obra="Violet" data-category="anime" data-title="Violet" data-desc="Segunda versión de mi Violet, como me pone triste este anime" data-process="Dibujos/VioletEvergarden/00-boceto.jpg, Dibujos/VioletEvergarden/01-boceto.jpg, Dibujos/VioletEvergarden/02-boceto.jpg, Dibujos/VioletEvergarden/03-final.jpg">
+          <div class="art-image-wrap">
+            <img src="Dibujos/VioletEvergarden/03-final.jpg" alt="Violet" loading="lazy">
+          </div>
           <h3>Violet</h3>
           <p>Segunda versión de mi Violet, como me pone triste este anime</p>
           <div class="reactions">
@@ -152,16 +198,18 @@
 
     <!-- Videos -->
     <section id="videos">
+      <span class="chapter-tag">Cap. 03</span>
       <h2>Videos</h2>
-      <div class="video-container">
-        <iframe width="560" height="315" src="https://www.youtube.com/watch?v=BifIdbS30s0" frameborder="0" allowfullscreen></iframe>
+      <div class="video-container reveal-up">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/BifIdbS30s0" title="Video de Sokio_Art" frameborder="0" allowfullscreen></iframe>
       </div>
     </section>
 
     <!-- Sugerencias -->
     <section id="sugerencias">
+      <span class="chapter-tag">Cap. 04</span>
       <h2>Comunidad - Sugerencias y Recomendaciones</h2>
-      <div class="comments">
+      <div class="comments reveal-up">
         <ul id="communityList"></ul>
         <input type="text" id="communityInput" placeholder="Escribe tu sugerencia...">
         <button id="sendSuggestion">Enviar</button>
@@ -171,11 +219,12 @@
 
   <!-- Footer -->
   <footer id="contacto">
+  <span class="chapter-tag chapter-tag-light">Cap. 05</span>
   <h2>Contacto</h2>
-  <p>Email: sokioart@ejemplo.com</p>
+  <p>Email: sokioart@gmail.com</p>
 
   <!-- Redes sociales -->
-  <div class="social-links">
+  <div class="social-links reveal-up">
     <a href="https://www.instagram.com/sokio_art?igsi=bm1yOHoxYjRuOTV6" target="_blank" class="social-icon">
       <img src="icons/Instagram.png" alt="Instagram"> Instagram
     </a>
@@ -184,6 +233,12 @@
     </a>
     <a href="https://discord.gg/SgjXkaTU" target="_blank" class="social-icon">
       <img src="icons/Discord.png" alt="Discord"> Discord
+    </a>
+    <a href="https://steamcommunity.com/profiles/76561198293085949/" target="_blank" class="social-icon">
+      <img src="icons/Steam.png" alt="Steam"> Steam
+    </a>
+    <a href="https://www.twitch.tv/akatsuandres575" target="_blank" class="social-icon">
+      <img src="icons/Twitch.png" alt="Twitch"> Twitch
     </a>
   </div>
 
